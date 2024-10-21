@@ -1,0 +1,63 @@
+<html>
+ <head>
+  <title>Learn German</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #d3d3d3;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    
+    h1 {
+        font-size: 36px;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-evenly; /* Distribute videos equally */
+        align-items: flex-start;
+        flex-wrap: wrap; /* Ensures responsiveness */
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .item {
+        flex: 1; /* Ensures equal width */
+        margin: 20px;
+        max-width: 400px; /* Increase max width for larger videos */
+    }
+
+    .item iframe {
+        width: 100%; /* Full width */
+        height: 250px; /* Set height to increase video size */
+    }
+
+    .item p {
+        font-size: 24px;
+        color: #333;
+        margin-top: 10px;
+    }
+  </style>
+ </head>
+ <body>
+    <h1>LET’S START LEARNING GERMAN :</h1>
+    <div class="container">
+        <div class="item">
+            <iframe src="https://www.youtube.com/embed/axQGCdGCjAk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p>ALPHABETS</p>
+        </div>
+        <div class="item">
+            <iframe src="https://www.youtube.com/embed/HxQRSljOYfs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p>PRONUNCIATION</p>
+        </div>
+        <div class="item">
+            <iframe src="https://www.youtube.com/embed/dvvh8sqIXl8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p>Basic Phrases and Vocabulary</p>
+        </div>
+    </div>
+ </body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Time</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc; /* Beige background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .container {
+            background-color: #e0f7fa; /* Light blue for quiz container */
+            padding: 40px;
+            width: 800px; /* Increased width */
+            height: 600px; /* Fixed height */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border-radius: 10px; /* Rounded corners */
+            overflow: hidden; /* Clip overflow */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Space out content */
+        }
+        .header {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333; /* Darker header color */
+            text-shadow: 1px 1px 1px #ccc; /* Subtle shadow for header */
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333; /* Dark question color */
+            text-align: left; /* Align question to left */
+        }
+        .options {
+            margin-left: 20px;
+            margin-bottom: 20px; /* Space below options */
+        }
+        .option {
+            margin-bottom: 15px;
+            background-color: #ffffff; /* White background for options */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px;
+            transition: background-color 0.3s; /* Smooth transition */
+            cursor: pointer; /* Pointer cursor on hover */
+            border: 1px solid #ccc; /* Light border for options */
+        }
+        .option:hover {
+            background-color: #007bff; /* Change background on hover */
+            color: white; /* Change text color on hover */
+        }
+        .option input {
+            margin-right: 10px;
+            cursor: pointer; /* Pointer cursor on radio button */
+        }
+        .next-button, .submit-button {
+            background-color: #007bff; /* Blue button */
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 25px;
+            position: relative;
+            align-self: flex-end; /* Align button to the bottom right */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        .next-button:hover, .submit-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .result {
+            font-size: 36px; /* Increased font size for results */
+            text-align: center;
+            color: #333; /* Result text color */
+            position: absolute; /* Position for full screen */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust position */
+            display: none; /* Hide by default */
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque background */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Shadow effect */
+            z-index: 10; /* Bring to front */
+        }
+        .return-home {
+            background-color: #28a745; /* Green button */
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 25px;
+            margin-top: 20px; /* Space above the button */
+            transition: background-color 0.3s;
+        }
+        .return-home:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">IT’S QUIZ TIME</div>
+        <div id="quiz-content"></div>
+        <div class="next-button" id="next-button">NEXT</div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Q.1) WHICH WORD IS USED TO SAY HELLO IN GERMAN?",
+                options: ["A) Halo", "B) HOLA", "C) Hallo", "D) HEALO"],
+                answer: 2 // "C) Hallo"
+            },
+            {
+                question: "Q.2) HOW DO YOU SAY 'THANK YOU' IN GERMAN?",
+                options: ["A) Danke", "B) Bitte", "C) Tschüss", "D) Entschuldigung"],
+                answer: 0 // "A) Danke"
+            },
+            {
+                question: "Q.3) WHAT IS THE GERMAN WORD FOR 'GOODBYE'?",
+                options: ["A) Auf Wiedersehen", "B) Hallo", "C) Tschüss", "D) Guten Tag"],
+                answer: 0 // "A) Auf Wiedersehen"
+            },
+            {
+                question: "Q.4) WHAT IS THE CAPITAL OF GERMANY?",
+                options: ["A) Munich", "B) Berlin", "C) Frankfurt", "D) Hamburg"],
+                answer: 1 // "B) Berlin"
+            },
+            {
+                question: "Q.5) WHICH GERMAN WORD MEANS 'BOOK'?",
+                options: ["A) Tisch", "B) Buch", "C) Stuhl", "D) Fenster"],
+                answer: 1 // "B) Buch"
+            },
+            {
+                question: "Q.6) HOW DO YOU SAY 'I LOVE YOU' IN GERMAN?",
+                options: ["A) Ich liebe dich", "B) Ich hasse dich", "C) Ich mag dich", "D) Ich finde dich gut"],
+                answer: 0 // "A) Ich liebe dich"
+            },
+            {
+                question: "Q.7) WHICH GERMAN WORD MEANS 'APPLE'?",
+                options: ["A) Banane", "B) Apfel", "C) Birne", "D) Traube"],
+                answer: 1 // "B) Apfel"
+            },
+            {
+                question: "Q.8) WHAT IS 'GOOD MORNING' IN GERMAN?",
+                options: ["A) Guten Abend", "B) Guten Morgen", "C) Guten Nacht", "D) Guten Tag"],
+                answer: 1 // "B) Guten Morgen"
+            },
+            {
+                question: "Q.9) WHAT DOES 'SCHADENFREUDE' MEAN?",
+                options: ["A) Joy at someone else's misfortune", "B) Love", "C) Happiness", "D) Sadness"],
+                answer: 0 // "A) Joy at someone else's misfortune"
+            },
+            {
+                question: "Q.10) WHICH OF THESE IS A GERMAN BEER BRAND?",
+                options: ["A) Heineken", "B) Guinness", "C) Paulaner", "D) Budweiser"],
+                answer: 2 // "C) Paulaner"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionIndex = null; // Store selected option index
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            const quizContent = document.getElementById('quiz-content');
+            quizContent.innerHTML = `
+                <div class="question">${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <div class="option" onclick="selectOption(${index})">
+                            <input type="radio" name="option" value="${index}">${option}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('result').style.display = 'none'; // Hide results initially
+            selectedOptionIndex = null; // Reset the selected option for each question
+
+            // Change the button to "Submit" on the last question
+            if (currentQuestionIndex === questions.length - 1) {
+                document.getElementById('next-button').innerText = "SUBMIT";
+            } else {
+                document.getElementById('next-button').innerText = "NEXT";
+            }
+        }
+
+        function selectOption(index) {
+            selectedOptionIndex = index; // Set the selected option index
+            const options = document.querySelectorAll('.option input');
+            options.forEach((option, idx) => {
+                option.checked = idx === index; // Select the clicked option
+            });
+        }
+
+        function handleNextButton() {
+            if (selectedOptionIndex !== null) {
+                const answerIndex = questions[currentQuestionIndex].answer;
+                if (selectedOptionIndex === answerIndex) {
+                    score++;
+                }
+
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                } else {
+                    displayResult();
+                }
+            } else {
+                alert('Please select an answer!');
+            }
+        }
+
+        function displayResult() {
+            const resultContainer = document.getElementById('result');
+            let resultMessage;
+
+            if (score >= 8) {
+                resultMessage = `🎉 Congratulations! You scored ${score}/10. You're a German language star! 🌟`;
+            } else if (score >= 5) {
+                resultMessage = `Good job! You scored ${score}/10. Keep practicing, and you'll master it soon! 💪`;
+            } else {
+                resultMessage = `You scored ${score}/10. Don't give up, keep learning and improving! 🌱`;
+            }
+
+            resultContainer.innerHTML = resultMessage + '<button class="return-home" onclick="returnHome()">Return Home</button>';
+            resultContainer.style.display = 'block'; // Show result
+            document.getElementById('quiz-content').style.display = 'none'; // Hide quiz content
+            document.getElementById('next-button').style.display = 'none'; // Hide next button
+        }
+
+        function returnHome() {
+            window.location.href = "web4.html"; // Redirect to the homepage (change this to your actual home page URL)
+        }
+
+        document.getElementById('next-button').addEventListener('click', handleNextButton);
+        displayQuestion(); // Display the first question
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh; /* 100% of the viewport height */
+        }
+        .left {
+            width: 60%;
+            background-image: url('web55559.jpg'); /* Your image path */
+            background-size: cover; /* Make sure the image covers the container */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Avoid repeating the image */
+            height: 100vh; /* Make it match the viewport height */
+        }
+        .right {
+            background-color: #c1a191;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .right h1 {
+            font-size: 48px;
+            margin-bottom: 40px;
+            font-weight: bold; /* Make text bold */
+        }
+        .right label {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .right input[type="text"],
+        .right input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border: none;
+            background-color: #e0e0e0;
+        }
+        .right input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 24px;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .right .or {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .right .social-icons {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .right .social-icons img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .success {
+            color: green;
+            font-size: 14px;
+        }
+        .already-account {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .already-account a {
+            color: blue;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="left"></div>
+    <div class="right">
+        <h1>LOGIN</h1>
+        <form id="loginForm">
+            <label for="username">Username</label>
+            <input id="username" placeholder="Email Address" type="text"/>
+            <div id="usernameError" class="error"></div>
+
+            <label for="password">Password</label>
+            <input id="password" placeholder="Create Password" type="password"/>
+            <div id="passwordError" class="error"></div>
+
+            <input type="submit" value="Submit"/>
+            <div id="formSuccess" class="success"></div>
+        </form>
+
+        <div class="or">OR</div>
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><img alt="Facebook icon" src="65 (1).png"/></a>
+            <a href="https://google.com" target="_blank"><img alt="Google icon" src="65 (2).png"/></a>
+            <a href="https://twitter.com" target="_blank"><img alt="Twitter icon" src="Screenshot 2024-08-13 225623.png"/></a>
+        </div>
+
+        <div class="already-account">
+            Already have an account? <a href="website2.html">SIGN IN</a>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('usernameError');
+        const passwordError = document.getElementById('passwordError');
+        const formSuccess = document.getElementById('formSuccess');
+    
+        function userExists(email) {
+            return localStorage.getItem(email) !== null;
+        }
+    
+        function storeUser(email, password) {
+            localStorage.setItem(email, password);
+        }
+    
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let valid = true;
+    
+            emailError.textContent = '';
+            passwordError.textContent = '';
+            formSuccess.textContent = '';
+    
+            const emailValue = emailInput.value;
+            const passwordValue = passwordInput.value;
+    
+            if (!isNaN(emailValue.charAt(0))) {
+                emailError.textContent = 'Email cannot start with a number.';
+                valid = false;
+            } else if (!emailValue.endsWith('@gmail.com')) {
+                emailError.textContent = 'Email must end with @gmail.com.';
+                valid = false;
+            }
+    
+            if (passwordValue.length <= 6) {
+                passwordError.textContent = 'Password must be greater than 6 characters.';
+                valid = false;
+            }
+    
+            if (valid) {
+                // If the user already exists, show "Already have an account? SIGN IN"
+                if (userExists(emailValue)) {
+                    formSuccess.innerHTML = 'Already have an account?<a href="website2.html">SIGN IN</a>';
+                } else {
+                    // If the user does not exist, create the account
+                    storeUser(emailValue, passwordValue);
+                    formSuccess.textContent = 'Account created successfully. Redirecting...';
+                    window.location.href = "web4.html"; // Redirect after account creation
+                }
+            }
+        });
+    </script>
+</body>
+</html>
